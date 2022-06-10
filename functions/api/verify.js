@@ -52,6 +52,6 @@ export async function onRequest(context) {
       }
     }
   } catch (err) {
-    return new Response("Internal error: " + err.name + ": " + err.message, {status: 500});
+    return new Response("Internal error: " + err.name + ": " + err.message + ";" + JSON.stringify(context.env), {status: 500});
   }
 }

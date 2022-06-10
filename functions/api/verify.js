@@ -20,7 +20,7 @@ export async function onRequest(context) {
     const input = email + MAC;
     const digest = await crypto.subtle.digest({name: 'SHA-256'}, new TextEncoder().encode(input));
     const base64 = btoa(String.fromCharCode(...new Uint8Array(digest)));
-    const url = "https://demo.mfkdf.com/setup?email=" + email + "&code=" + digest + "&name=" + encodeURIComponent(name);
+    const url = "https://demo.mfkdf.com/setup?email=" + encodeURIComponent(email) + "&code=" + digest + "&name=" + encodeURIComponent(name);
 
     let html = `
       <p>Dear ${name},</p>

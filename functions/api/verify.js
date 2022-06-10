@@ -21,7 +21,7 @@ export async function onRequest(context) {
       const input = email + env.MAC;
       const digest = await crypto.subtle.digest({name: 'SHA-256'}, new TextEncoder().encode(input));
       const base64 = btoa(String.fromCharCode(...new Uint8Array(digest)));
-      const url = "https://demo.mfkdf.com/setup?email=" + encodeURIComponent(email) + "&code=" + digest + "&name=" + encodeURIComponent(name);
+      const url = "https://demo.mfkdf.com/setup?email=" + encodeURIComponent(email) + "&code=" + base64 + "&name=" + encodeURIComponent(name);
 
       let html = `
         <p>Dear ${name},</p>
@@ -48,7 +48,7 @@ export async function onRequest(context) {
       if (resp.status === 200) {
         return new Response("Sent confirmation email", {status: 200});
       } else {
-        return new Response("Error sending confirmation email: " + resp.text(), {status: 500});
+        return new Response("Error sending confirmation email: " + (await resp.text()), {status: 500});
       }
     }
   } catch (err) {

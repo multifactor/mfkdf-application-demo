@@ -1,15 +1,13 @@
 .socket{
 	width: 200px;
 	height: 200px;
-	position: absolute;
-	left: 50%;
-	margin-left: -100px;
-	top: 50%;
-	margin-top: -100px;
+	position: relative;
+	margin: 20px auto;
+	transform: scale(0.8);
 }
 
 .hex-brick{
-  background: #ABF8FF;
+  background: #FC6E02;
   width: 30px;
   height: 17px;
   position: absolute;
@@ -324,15 +322,15 @@
 
 @keyframes fade{
 	0%{
-		background: #ABF8FF;
+		background: #FC6E02;
 	}
 
 	50%{
-		background: #90BBBF;
+		background: #FC6E02;
 	}
 
 	100%{
-		background: #ABF8FF;
+		background: #FC6E02;
 	}
 }
 
@@ -355,14 +353,14 @@
 
 @-webkit-keyframes fade{
 	0%{
-		background: #ABF8FF;
+		background: #FC6E02;
 	}
 
 	50%{
-		background: #389CA6;
+		background: #FC6E02;
 	}
 
 	100%{
-		background: #ABF8FF;
+		background: #FC6E02;
 	}
 }

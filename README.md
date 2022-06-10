@@ -1,4 +1,4 @@
-[![MFKDF](./src/logo.png "MFKDF DEMO")](https://demo.mfkdf.com/ "MFKDF DEMO")
+[![MFKDF](./src/Images/logo.png "MFKDF DEMO")](https://demo.mfkdf.com/ "MFKDF DEMO")
 
 MFKDF Centralized Application Demo
 

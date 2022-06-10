@@ -1,5 +1,6 @@
 import React from 'react';
-import icon from './icon-w.png';
+import icon from '../Images/icon-w.png';
+import Loading from '../Components/Loading';
 import axios from 'axios';
 
 const validateEmail = (email) => {
@@ -39,18 +40,20 @@ class Register extends React.Component {
       <div className="form text-center">
         <img className="logo" src={icon} alt="MFKDF" />
         <div className="card text-start">
-          <h2>Create your account</h2>
-          <form action="" onSubmit={this.submit}>
-            <div className="mt-3">
-              <label htmlFor="name" className="form-label">Full name</label>
-              <input onChange={this.validate} ref={this.name} type="text" className={this.state.nameValid ? "form-control is-valid" : "form-control"} id="name" placeholder="Enter your name" required />
-            </div>
-            <div className="mt-3">
-              <label htmlFor="email" className="form-label">Email address</label>
-              <input onChange={this.validate} ref={this.email} type="email" className={this.state.emailValid ? "form-control is-valid" : "form-control"} id="email" placeholder="Enter your email address" required />
-            </div>
-            <button disabled={!(this.state.emailValid && this.state.nameValid)} className="btn btn-success mt-3 mb-0 w-100" type="submit">Continue &nbsp;<i className="fa fa-arrow-right" /></button>
-          </form>
+          {this.state.loading ? <Loading /> : <>
+            <h2>Create your account</h2>
+            <form action="" onSubmit={this.submit}>
+              <div className="mt-3">
+                <label htmlFor="name" className="form-label">Full name</label>
+                <input onChange={this.validate} ref={this.name} type="text" className={this.state.nameValid ? "form-control is-valid" : "form-control"} id="name" placeholder="Enter your name" required />
+              </div>
+              <div className="mt-3">
+                <label htmlFor="email" className="form-label">Email address</label>
+                <input onChange={this.validate} ref={this.email} type="email" className={this.state.emailValid ? "form-control is-valid" : "form-control"} id="email" placeholder="Enter your email address" required />
+              </div>
+              <button disabled={!(this.state.emailValid && this.state.nameValid)} className="btn btn-success mt-3 mb-0 w-100" type="submit">Continue &nbsp;<i className="fa fa-arrow-right" /></button>
+            </form>
+          </>}
         </div>
       </div>
       <div className="warning">

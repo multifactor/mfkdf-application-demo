@@ -1,5 +1,6 @@
 import React from 'react';
 import icon from './icon-w.png';
+import axios from 'axios';
 
 class Register extends React.Component {
   constructor(props) {
@@ -11,7 +12,9 @@ class Register extends React.Component {
 
   submit(e) {
     e.preventDefault();
-    console.log(this.email.current.value)
+    axios.post('https://demo.mfkdf.com/api/verify?email=' + this.email.current.value).then((res) => {
+      console.log(res)
+    })
   }
 
   render() {

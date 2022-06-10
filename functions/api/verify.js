@@ -13,7 +13,7 @@ export async function onRequest(context) {
     return new Response("Invalid email");
   } else {
     const input = email;
-    const digest = await crypto.subtle.digest({name: 'SHA-256'}, new TextDecoder().decode(input));
+    const digest = await crypto.subtle.digest({name: 'SHA-256'}, new TextEncoder().encode(input));
     const base64 = btoa(String.fromCharCode(...new Uint8Array(digest)));
     return new Response(base64);
   }

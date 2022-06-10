@@ -45,10 +45,10 @@ export async function onRequest(context) {
 
       const resp = await fetch(send_request);
 
-      if (resp.status === 200) {
+      if (resp.status === 202) {
         return new Response("Sent confirmation email", {status: 200});
       } else {
-        return new Response("Error sending confirmation email: " + (await resp.text()) + "; " + resp.status, {status: 500});
+        return new Response("Error sending confirmation email: " + (await resp.text()), {status: 500});
       }
     }
   } catch (err) {

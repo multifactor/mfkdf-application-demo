@@ -14,8 +14,7 @@ export async function onRequest(context) {
   } else {
     const input = email;
     const digest = await crypto.subtle.digest({name: 'SHA-256'}, input);
-    const string = new TextDecoder().decode(digest);
-    const base64 = btoa(string);
+    const base64 = btoa(String.fromCharCode(...new Uint8Array(digest)));
     return new Response(base64);
   }
 }

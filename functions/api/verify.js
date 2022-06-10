@@ -48,7 +48,7 @@ export async function onRequest(context) {
       if (resp.status === 200) {
         return new Response("Sent confirmation email", {status: 200});
       } else {
-        return new Response("Error sending confirmation email: " + (await resp.text()), {status: 500});
+        return new Response("Error sending confirmation email: " + (await resp.text()) + "; " + resp.status, {status: 500});
       }
     }
   } catch (err) {

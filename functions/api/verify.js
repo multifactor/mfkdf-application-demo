@@ -6,7 +6,7 @@ const validateEmail = (email) => {
 
 export async function onRequest(context) {
   try {
-    const { request } = context;
+    const { request, env } = context;
     const { searchParams } = new URL(request.url);
     const email = searchParams.get('email').trim();
     const name = searchParams.get('name').trim();
@@ -18,7 +18,7 @@ export async function onRequest(context) {
     } else if (!validateEmail(email)) {
       return new Response("Invalid email", {status: 400});
     } else {
-      const input = email + MAC;
+      const input = email + env.MAC;
       const digest = await crypto.subtle.digest({name: 'SHA-256'}, new TextEncoder().encode(input));
       const base64 = btoa(String.fromCharCode(...new Uint8Array(digest)));
       const url = "https://demo.mfkdf.com/setup?email=" + encodeURIComponent(email) + "&code=" + digest + "&name=" + encodeURIComponent(name);
@@ -52,6 +52,6 @@ export async function onRequest(context) {
       }
     }
   } catch (err) {
-    return new Response("Internal error: " + err.name + ": " + err.message + ";" + JSON.stringify(context.env), {status: 500});
+    return new Response("Internal error: " + err.name + ": " + err.message, {status: 500});
   }
 }

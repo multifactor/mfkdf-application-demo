@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 
 import './index.scss';
-import Register from './Register';
+import Register from './Pages/Register';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

@@ -12,7 +12,7 @@ export async function onRequest(context) {
     const name = searchParams.get('name').trim();
     const code = searchParams.get('code').trim();
 
-    if (request.method == "POST") {
+    if (request.method !== "POST") {
       return new Response("Expected POST", {status: 400});
     } else if (typeof name !== 'string' || name.length === 0) {
       return new Response("Expected name", {status: 400});

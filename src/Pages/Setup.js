@@ -44,6 +44,7 @@ class Setup extends React.Component {
     const params = new URLSearchParams(window.location.search);
     const email = params.get('email');
     const name = params.get('name');
+    const code = params.get('code');
 
     if (this.state.page === 0) {
       if (this.state.strength === 100) {
@@ -97,15 +98,12 @@ class Setup extends React.Component {
       }
     } else if (this.state.page === 3) {
       this.setState({loading: true});
-      // register account
-      // axios.post('https://demo.mfkdf.com/api/verify?email=' + encodeURIComponent(this.email.current.value) + '&name=' + encodeURIComponent(this.name.current.value)).then((res) => {
-      //   this.setState({loading: false, success: true});
-      // }).catch((err) => {
-      //   const msg = (err.response && err.response.data) ? err.response.data : err.message;
-      //   this.setState({loading: false, error: msg, emailValid: false, nameValid: false});
-      // })
-      this.props.user.key = this.policy;
-      this.setState({redirect: true});
+      axios.post('https://demo.mfkdf.com/api/register?email=' + encodeURIComponent(email) + '&name=' + encodeURIComponent(name) + '&code=' + encodeURIComponent(code), this.policy.policy).then((res) => {
+        this.setState({redirect: true});
+      }).catch((err) => {
+        const msg = (err.response && err.response.data) ? err.response.data : err.message;
+        this.setState({loading: false, error: msg, page: 0});
+      })
     }
   }
 

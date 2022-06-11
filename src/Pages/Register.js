@@ -47,10 +47,10 @@ class Register extends React.Component {
         <div className="card text-start">
           {this.state.loading ? <Loading /> : <>
             {this.state.success ? <>
-              <h2 class="text-center text-success"><i class="fa-solid fa-envelope-circle-check"></i>&nbsp;&thinsp;Check your inbox!</h2>
-              <p class="mb-0 mt-3">We have sent you a link where you can complete the signup process. If you don't receive an email within a few minutes, check your spam folder or&thinsp; <a href="/register"><i className="fa-solid fa-arrows-rotate"></i>&nbsp;try&nbsp;again</a>.</p>
+              <h2 className="text-center text-success"><i className="fa-solid fa-envelope-circle-check"></i>&nbsp;&thinsp;Check your inbox!</h2>
+              <p className="mb-0 mt-3">We have sent you a link where you can complete the signup process. If you don't receive an email within a few minutes, check your spam folder or&thinsp; <a href="/register"><i className="fa-solid fa-arrows-rotate"></i>&nbsp;try&nbsp;again</a>.</p>
             </> : <>
-              <h2 class="text-center">Create your account</h2>
+              <h2 className="text-center">Create your account</h2>
               <form action="" onSubmit={this.submit}>
                 <div className="mt-3">
                   <label htmlFor="name" className="form-label">Full name</label>

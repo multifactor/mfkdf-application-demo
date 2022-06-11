@@ -1,3 +1,67 @@
+.dashboard {
+  background: #eee;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding-top: 70px;
+
+  .socket {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .account {
+    position: relative;
+    height: 180px;
+    overflow: hidden;
+
+    .info {
+      position: absolute;
+      width: 100%;
+      top: 50%;
+      left: 0;
+      right: 0;
+      padding-left: 182px;
+      transform: translateY(-50%);
+      padding-right: 32px;
+
+      .input-group-text {
+        padding: 8px 10px;
+      }
+    }
+
+    .splash {
+      position: absolute;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: 100px;
+
+      .icon {
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+        background: #eee;
+        position: absolute;
+        left: 100%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+
+        img {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        }
+      }
+    }
+  }
+}
+
 .splash-bg {
   position: fixed;
   top: 0;
@@ -98,4 +162,26 @@ input::-webkit-inner-spin-button {
 
 input[type=number] {
   -moz-appearance: textfield;
+}
+
+
+.modal {
+  .list-group {
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+    margin-top: -1px;
+  }
+
+  .site-chosen {
+    position: relative;
+    .input-group-text {
+      position: relative;
+      img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
 }

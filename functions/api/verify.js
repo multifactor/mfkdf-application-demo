@@ -20,7 +20,7 @@ export async function onRequest(context) {
     } else {
       const input = email + env.MAC;
       const digest = await crypto.subtle.digest({name: 'SHA-256'}, new TextEncoder().encode(input));
-      const base64 = btoa(String.fromCharCode(...new Uint8Array(digest))).replace('+', '-').replace('/', '_').replace(/=+$/, '');
+      const base64 = btoa(String.fromCharCode(...new Uint8Array(digest))).replaceAll('+', '-').replaceAll('/', '_').replace(/=+$/, '');
       const url = "https://demo.mfkdf.com/setup?email=" + encodeURIComponent(email) + "&code=" + base64 + "&name=" + encodeURIComponent(name);
 
       let html = `

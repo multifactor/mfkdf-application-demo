@@ -98,16 +98,18 @@ class Setup extends React.Component {
       }
     } else if (this.state.page === 3) {
       this.setState({loading: true});
-      axios.post('https://demo.mfkdf.com/api/register?email=' + encodeURIComponent(email) + '&name=' + encodeURIComponent(name) + '&code=' + encodeURIComponent(code), {
-        authKey: (await this.policy.ISO9798CCFKey()).toString('hex'),
-        policy: this.policy.policy
-      }).then((res) => {
-        this.props.user.key = this.policy;
-        this.setState({redirect: true});
-      }).catch((err) => {
-        const msg = (err.response && err.response.data) ? err.response.data : err.message;
-        this.setState({loading: false, error: msg, page: 0});
-      })
+      (async () => {
+        axios.post('https://demo.mfkdf.com/api/register?email=' + encodeURIComponent(email) + '&name=' + encodeURIComponent(name) + '&code=' + encodeURIComponent(code), {
+          authKey: (await this.policy.ISO9798CCFKey()).toString('hex'),
+          policy: this.policy.policy
+        }).then((res) => {
+          this.props.user.key = this.policy;
+          this.setState({redirect: true});
+        }).catch((err) => {
+          const msg = (err.response && err.response.data) ? err.response.data : err.message;
+          this.setState({loading: false, error: msg, page: 0});
+        })
+      })();
     }
   }
 

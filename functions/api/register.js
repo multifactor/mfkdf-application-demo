@@ -20,7 +20,7 @@ export async function onRequest(context) {
       return new Response("Expected email", {status: 400});
     } else if (!validateEmail(email)) {
       return new Response("Invalid email", {status: 400});
-    } else if (typeof email !== 'string' || email.length === 0)) {
+    } else if (typeof code !== 'string' || code.length === 0) {
       return new Response("Expected code", {status: 400});
     } else {
       const input = email + env.MAC;

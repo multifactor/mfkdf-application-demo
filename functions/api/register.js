@@ -28,9 +28,9 @@ export async function onRequest(context) {
       const base64 = btoa(String.fromCharCode(...new Uint8Array(digest))).replace('+', '-').replace('/', '_').replace(/=+$/, '');
       if (base64 === code) {
         const key = 'user#' + email.toLowerCase();
-        const user = await DB.get(key);
+        const user = await env.DB.get(key);
         if (user === null) {
-          await DB.put(key, await request.text());
+          await env.DB.put(key, await request.text());
           return new Response("User created", {status: 200});
         } else {
           return new Response("User already exists", {status: 400});

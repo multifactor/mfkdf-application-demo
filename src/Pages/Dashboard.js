@@ -75,8 +75,18 @@ class Dashboard extends React.Component {
       const plaintext = JSON.stringify(account);
       const ciphertext = await this.props.user.key.encrypt(plaintext, 'aes256');
       const auth = await this.props.user.key.ISO97981PassUnilateralAuthCCF(ciphertext);
-      console.log(ciphertext);
-      console.log(auth);
+
+      axios.post('https://demo.mfkdf.com/api/passwords/new?email=' + encodeURIComponent(email), {
+        object: ciphertext.toString('hex'),
+        auth: auth.toString('hex')
+      }).then((res) => {
+        console.log(res);
+      }).catch((err) => {
+        const msg = (err.response && err.response.data) ? err.response.data : err.message;
+        this.setState({loading: false});
+        alert(msg);
+      })
+
     })();
   }
 

@@ -14,16 +14,7 @@ export async function onRequest(context) {
         return new Response("User not found", {status: 400});
       } else {
         const userData = JSON.parse(user);
-        const authKey = userData.authKey;
-        const json = await request.json();
-
-        // TODO: validate auth
-
-        const id = Date.now() + '-' + Math.random();
-        const key = 'pass#' + email + '#' + id;
-        await env.DB.put(key, json.object);
-
-        return new Response("Password created", {status: 200});
+        return new Response(JSON.stringify(userData.policy), {status: 200});
       }
     }
   } catch (err) {

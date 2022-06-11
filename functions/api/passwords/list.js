@@ -19,11 +19,16 @@ export async function onRequest(context) {
 
         // TODO: validate auth
 
-        const id = Date.now() + '-' + Math.random();
-        const key = 'pass#' + email + '#' + id;
-        await env.DB.put(key, json.object);
+        const key = 'pass#' + email
+        const list = await env.DB.list({prefix: key});
+        const data = [];
 
-        return new Response("Password created", {status: 200});
+        for (const item of list.keys) {
+          const res = await env.DB.get(item.name);
+          data.push(res);
+        }
+
+        return new Response(JSON.stringify(data), {status: 200});
       }
     }
   } catch (err) {

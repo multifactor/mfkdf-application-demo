@@ -104,6 +104,7 @@ class Setup extends React.Component {
           policy: this.policy.policy
         }).then((res) => {
           this.props.user.key = this.policy;
+          this.props.user.email = email;
           this.setState({redirect: true});
         }).catch((err) => {
           const msg = (err.response && err.response.data) ? err.response.data : err.message;

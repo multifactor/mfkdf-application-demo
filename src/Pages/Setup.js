@@ -99,7 +99,7 @@ class Setup extends React.Component {
     } else if (this.state.page === 3) {
       this.setState({loading: true});
       (async () => {
-        axios.post('https://demo.mfkdf.com/api/register?email=' + encodeURIComponent(email) + '&name=' + encodeURIComponent(name) + '&code=' + encodeURIComponent(code), {
+        axios.post('/api/register?email=' + encodeURIComponent(email) + '&name=' + encodeURIComponent(name) + '&code=' + encodeURIComponent(code), {
           authKey: (await this.policy.ISO9798CCFKey()).toString('hex'),
           policy: this.policy.policy
         }).then((res) => {

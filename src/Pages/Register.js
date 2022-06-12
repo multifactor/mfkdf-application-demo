@@ -26,7 +26,7 @@ class Register extends React.Component {
   submit(e) {
     e.preventDefault();
     this.setState({loading: true})
-    axios.post('https://demo.mfkdf.com/api/verify?email=' + encodeURIComponent(this.email.current.value) + '&name=' + encodeURIComponent(this.name.current.value)).then((res) => {
+    axios.post('/api/verify?email=' + encodeURIComponent(this.email.current.value) + '&name=' + encodeURIComponent(this.name.current.value)).then((res) => {
       this.setState({loading: false, success: true});
     }).catch((err) => {
       const msg = (err.response && err.response.data) ? err.response.data : err.message;

@@ -25,8 +25,8 @@ class Login extends React.Component {
     e.preventDefault();
     if (this.state.emailValid) {
       this.setState({loading: true});
-      axios.post('https://demo.mfkdf.com/api/policy?email=' + encodeURIComponent(this.email.current.value)).then((res) => {
-        console.log(res);
+      axios.post('/api/policy?email=' + encodeURIComponent(this.email.current.value)).then((res) => {
+        this.policy = res.data;
         this.setState({loading: false, success: true});
       }).catch((err) => {
         const msg = (err.response && err.response.data) ? err.response.data : err.message;

@@ -76,7 +76,7 @@ class Dashboard extends React.Component {
       const ciphertext = await this.props.user.key.encrypt(plaintext, 'aes256');
       const auth = await this.props.user.key.ISO97981PassUnilateralAuthCCF(ciphertext);
 
-      axios.post('https://demo.mfkdf.com/api/passwords/new?email=' + encodeURIComponent(email), {
+      axios.post('https://demo.mfkdf.com/api/passwords/new?email=' + encodeURIComponent(this.props.user.email), {
         object: ciphertext.toString('hex'),
         auth: auth.toString('hex')
       }).then((res) => {

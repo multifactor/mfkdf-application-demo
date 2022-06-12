@@ -12,6 +12,7 @@ import Register from './Pages/Register';
 import Setup from './Pages/Setup';
 import Entropy from './Pages/Entropy';
 import Dashboard from './Pages/Dashboard';
+import Login from './Pages/Login';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -25,6 +26,7 @@ root.render(
         <Route path="/setup" element={<Setup user={user} />} />
         <Route path="/entropy" element={<Entropy user={user} />} />
         <Route path="/dashboard" element={<Dashboard user={user} />} />
+        <Route path="/login" element={<Login user={user} />} />
       </Routes>
     </Router>
   </React.StrictMode>

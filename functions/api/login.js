@@ -24,9 +24,9 @@ export async function onRequest(context) {
       if (user === null) {
         return new Response("User not found", {status: 400});
       } else {
-        const request = await request.json();
-        const auth = request.auth;
-        const time = request.time;
+        const json = await request.json();
+        const auth = json.auth;
+        const time = json.time;
 
         if (Math.abs(time - Date.now()) > 5000) {
           return new Response("Time delta too large", {status: 400});

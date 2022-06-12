@@ -103,6 +103,9 @@ class Login extends React.Component {
     if (this.state.register) {
       return <Navigate to={"/register?e=" + encodeURIComponent(this.state.register)} />
     }
+    if (this.state.dashboard) {
+      return <Navigate to="/dashboard" />
+    }
     return <div className="splash-bg">
       <div className="bg-image"></div>
       <div className="form text-center">
@@ -128,9 +131,6 @@ class Login extends React.Component {
                 </div>
                 <button disabled={!(this.state.passwordValid && this.state.totpValid)} className="btn btn-success mt-3 mb-0 w-100" type="submit">Continue &nbsp;<i className="fa fa-arrow-right" /></button>
               </form>
-              {this.state.error && <div className="alert alert-danger mt-3 mb-0" role="alert">
-                <i className="fa fa-triangle-exclamation"></i>&nbsp; <b>Error: </b>{this.state.error}
-              </div>}
             </> : <>
               <form action="" onSubmit={this.submit}>
                 <div className="mt-3">
@@ -139,10 +139,13 @@ class Login extends React.Component {
                 </div>
                 <button disabled={!(this.state.emailValid)} className="btn btn-success mt-3 mb-0 w-100" type="submit">Continue &nbsp;<i className="fa fa-arrow-right" /></button>
               </form>
-              {this.state.error && <div className="alert alert-danger mt-3 mb-0" role="alert">
-                <i className="fa fa-triangle-exclamation"></i>&nbsp; <b>Error: </b>{this.state.error}
-              </div>}
             </>}
+            {this.state.error && <div className="alert alert-danger mt-3 mb-0" role="alert">
+              {
+                this.state.error === "Invalid auth token" ? <><i className="fa fa-triangle-exclamation"></i>&nbsp; <b>Error: </b>Your password or TOTP code was incorrect. If you forgot your password or lost your TOTP device, you can <Link to={"/recover?e=" + encodeURIComponent(this.state.email)}>recover your account</Link>.</>
+                : <><i className="fa fa-triangle-exclamation"></i>&nbsp; <b>Error: </b>{this.state.error}</>
+              }
+            </div>}
           </>}
         </div>
       </div>

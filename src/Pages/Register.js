@@ -40,6 +40,12 @@ class Register extends React.Component {
   }
 
   render() {
+    var defaultEmail = null;
+    const urlParams = new URLSearchParams(window.location.search);
+    if (typeof urlParams.get('e') === 'string') {
+      defaultEmail = urlParams.get('e');
+    }
+
     return <div className="splash-bg">
       <div className="bg-image"></div>
       <div className="form text-center">
@@ -58,7 +64,7 @@ class Register extends React.Component {
                 </div>
                 <div className="mt-3">
                   <label htmlFor="email" className="form-label">Email address</label>
-                  <input onChange={this.validate} ref={this.email} type="email" className={this.state.emailValid ? "form-control is-valid" : "form-control"} id="email" placeholder="Enter your email address" required />
+                  <input onChange={this.validate} ref={this.email} type="email" className={this.state.emailValid ? "form-control is-valid" : "form-control"} id="email" placeholder="Enter your email address" required defaultValue={defaultEmail} />
                 </div>
                 <button disabled={!(this.state.emailValid && this.state.nameValid)} className="btn btn-success mt-3 mb-0 w-100" type="submit">Continue &nbsp;<i className="fa fa-arrow-right" /></button>
               </form>

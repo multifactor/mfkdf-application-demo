@@ -3,6 +3,10 @@ import Loading from '../Components/Loading';
 import Account from '../Components/Account';
 import axios from 'axios';
 import logo from '../Images/icon-w.png';
+import hero from '../Images/hero.png';
+import {
+  Navigate
+} from "react-router-dom";
 
 function SHA256(string) {
   const utf8 = new TextEncoder().encode(string);
@@ -111,6 +115,10 @@ class Dashboard extends React.Component {
   }
 
   render() {
+    if (!this.props.user.key) {
+      return <Navigate to="/login" />
+    }
+
     return <>
       <nav className="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
         <div className="container">
@@ -125,9 +133,16 @@ class Dashboard extends React.Component {
       <div className="dashboard">
         <div className="container mt-5">
           {(this.state.data && !this.state.loading) ?
-            <div className="row">
-              {this.state.data.map(account => <Account data={account} key={account.id} user={this.props.user} />)}
-            </div>
+            <>{
+              this.state.data.length === 0 ? <div className="zero-state">
+                <img src={hero} alt="zero state" />
+                <h2>Nothing here yet</h2>
+                <p>Get started by adding an account.</p>
+                <button className="btn btn-dark px-5" type="button" onClick={() => {this.setState({modal: true})}}><i className="fa fa-plus"></i>&nbsp; Add Password</button>
+              </div> : <div className="row">
+                {this.state.data.map(account => <Account data={account} key={account.id} user={this.props.user} />)}
+              </div>
+            }</>
           : <Loading />}
         </div>
       </div>

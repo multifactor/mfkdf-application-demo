@@ -1,7 +1,37 @@
 import React from 'react';
+import axios from 'axios';
+
+function SHA256(string) {
+  const utf8 = new TextEncoder().encode(string);
+  return crypto.subtle.digest('SHA-256', utf8).then((hashBuffer) => {
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray
+      .map((bytes) => bytes.toString(16).padStart(2, '0'))
+      .join('');
+    return hashHex;
+  });
+}
 
 class Account extends React.Component {
+  constructor(props) {
+    super(props)
+    this.state = {deleted: false}
+    this.delete = this.delete.bind(this)
+  }
+
+  async delete() {
+    this.setState({deleted: true})
+    const authKey = (await this.props.user.key.ISO9798CCFKey()).toString('hex');
+    const time = Date.now();
+    const auth = await SHA256(authKey + time);
+    await axios.post('/api/passwords/delete?email=' + encodeURIComponent(this.props.user.email) + "&id=" + encodeURIComponent(this.props.data.id), {
+      auth, time
+    });
+  }
+
   render() {
+    if (this.state.deleted) return <></>;
+
     return (
       <div className="col-4 mb-4">
         <div className="card account">
@@ -21,6 +51,7 @@ class Account extends React.Component {
               <input type="text" className="form-control" value={this.props.data.pass} readOnly />
             </div>
           </div>
+          <button onClick={this.delete} type="button" className="btn-close"></button>
         </div>
       </div>
     )

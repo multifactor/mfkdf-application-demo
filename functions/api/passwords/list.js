@@ -1,3 +1,14 @@
+function SHA256(string) {
+  const utf8 = new TextEncoder().encode(string);
+  return crypto.subtle.digest('SHA-256', utf8).then((hashBuffer) => {
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray
+      .map((bytes) => bytes.toString(16).padStart(2, '0'))
+      .join('');
+    return hashHex;
+  });
+}
+
 export async function onRequest(context) {
   try {
     const { request, env } = context;
@@ -16,19 +27,28 @@ export async function onRequest(context) {
         const userData = JSON.parse(user);
         const authKey = userData.authKey;
         const json = await request.json();
+        const auth = json.auth;
+        const time = json.time;
 
-        // TODO: validate auth
-
-        const key = 'pass#' + email
-        const list = await env.DB.list({prefix: key});
-        const data = [];
-
-        for (const item of list.keys) {
-          const res = await env.DB.get(item.name);
-          data.push(res);
+        if (Math.abs(time - Date.now()) > 5000) {
+          return new Response("Time delta too large", {status: 400});
+        } else {
+          const userData = JSON.parse(user);
+          const authKey = userData.authKey;
+          const real = await SHA256(authKey + time);
+          if (real === auth) {
+            const key = 'pass#' + email
+            const list = await env.DB.list({prefix: key});
+            const data = [];
+            for (const item of list.keys) {
+              const res = await env.DB.get(item.name);
+              data.push(res);
+            }
+            return new Response(JSON.stringify(data), {status: 200});
+          } else {
+            return new Response("Invalid auth token", {status: 400});
+          }
         }
-
-        return new Response(JSON.stringify(data), {status: 200});
       }
     }
   } catch (err) {

@@ -57,7 +57,7 @@ class Login extends React.Component {
           const auth = await SHA256(authKey + time);
 
           axios.post('/api/login?email=' + encodeURIComponent(this.state.email), {
-            auth, time
+            auth, time, policy: derived.policy
           }).then((res) => {
             this.props.user.email = this.state.email;
             this.props.user.key = derived;

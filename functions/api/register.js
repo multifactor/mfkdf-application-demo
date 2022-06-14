@@ -8,7 +8,7 @@ export async function onRequest(context) {
   try {
     const { request, env } = context;
     const { searchParams } = new URL(request.url);
-    const email = searchParams.get('email').trim();
+    const email = searchParams.get('email').trim().toLowerCase();
     const name = searchParams.get('name').trim();
     const code = searchParams.get('code').trim();
 

@@ -13,7 +13,7 @@ export async function onRequest(context) {
   try {
     const { request, env } = context;
     const { searchParams } = new URL(request.url);
-    const email = searchParams.get('email').trim();
+    const email = searchParams.get('email').trim().toLowerCase();
 
     if (request.method !== "POST") {
       return new Response("Expected POST", {status: 400});

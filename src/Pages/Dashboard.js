@@ -89,7 +89,6 @@ class Dashboard extends React.Component {
       const time = Date.now();
       const auth = await SHA256(authKey + time);
 
-
       axios.post('/api/passwords/new?email=' + encodeURIComponent(this.props.user.email), {
         object: ciphertext.toString('hex'),
         auth, time

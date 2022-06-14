@@ -13,7 +13,7 @@ export async function onRequest(context) {
   try {
     const { request, env } = context;
     const { searchParams } = new URL(request.url);
-    const email = searchParams.get('email').trim();
+    const email = searchParams.get('email').trim().toLowerCase();
 
     if (request.method !== "POST") {
       return new Response("Expected POST", {status: 400});
@@ -35,6 +35,9 @@ export async function onRequest(context) {
           const authKey = userData.authKey;
           const real = await SHA256(authKey + time);
           if (real === auth) {
+            userData.policy = json.policy;
+            const key = 'user#' + email;
+            await env.DB.put(key, JSON.stringify(userData));
             return new Response("Success", {status: 200});
           } else {
             return new Response("Invalid auth token", {status: 400});

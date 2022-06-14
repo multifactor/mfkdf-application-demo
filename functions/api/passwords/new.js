@@ -16,14 +16,24 @@ export async function onRequest(context) {
         const userData = JSON.parse(user);
         const authKey = userData.authKey;
         const json = await request.json();
+        const auth = json.auth;
+        const time = json.time;
 
-        // TODO: validate auth
-
-        const id = Date.now() + '-' + Math.random();
-        const key = 'pass#' + email + '#' + id;
-        await env.DB.put(key, json.object);
-
-        return new Response("Password created", {status: 200});
+        if (Math.abs(time - Date.now()) > 5000) {
+          return new Response("Time delta too large", {status: 400});
+        } else {
+          const userData = JSON.parse(user);
+          const authKey = userData.authKey;
+          const real = await SHA256(authKey + time);
+          if (real === auth) {
+            const id = Date.now() + '-' + Math.random();
+            const key = 'pass#' + email + '#' + id;
+            await env.DB.put(key, json.object);
+            return new Response("Password created", {status: 200});
+          } else {
+            return new Response("Invalid auth token", {status: 400});
+          }
+        }
       }
     }
   } catch (err) {

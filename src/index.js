@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom/client';
 import {
   BrowserRouter as Router,
   Routes,
-  Route
+  Route,
+  Navigate
 } from "react-router-dom";
 import reportWebVitals from './reportWebVitals';
 import './index.scss';
@@ -13,6 +14,7 @@ import Setup from './Pages/Setup';
 import Entropy from './Pages/Entropy';
 import Dashboard from './Pages/Dashboard';
 import Login from './Pages/Login';
+import Home from './Pages/Home';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -27,6 +29,8 @@ root.render(
         <Route path="/entropy" element={<Entropy user={user} />} />
         <Route path="/dashboard" element={<Dashboard user={user} />} />
         <Route path="/login" element={<Login user={user} />} />
+        <Route path="/" element={<Home user={user} />} />
+        <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
   </React.StrictMode>

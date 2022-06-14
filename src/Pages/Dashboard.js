@@ -19,28 +19,13 @@ class Dashboard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+      loading: true,
       data: false,
       modal: false,
       autocomplete: false,
       site: false,
       valid: false
     }
-    this.state.data = [
-      {
-        id: 'abc',
-        name: 'Facebook',
-        site: 'facebook.com',
-        user: 'user@email.com',
-        pass: '12345'
-      },
-      {
-        id: 'xyz',
-        name: 'Google',
-        site: 'google.com',
-        user: 'user@email.com',
-        pass: '12345'
-      }
-    ]
     this.searchBar = React.createRef();
     this.user = React.createRef();
     this.pass = React.createRef();
@@ -48,6 +33,22 @@ class Dashboard extends React.Component {
     this.choose = this.choose.bind(this);
     this.validate = this.validate.bind(this);
     this.create = this.create.bind(this);
+  }
+
+  async componentDidMount() {
+    const authKey = (await this.props.user.key.ISO9798CCFKey()).toString('hex');
+    const time = Date.now();
+    const auth = await SHA256(authKey + time);
+    const res = await axios.post('/api/passwords/list?email=' + encodeURIComponent(this.props.user.email), {
+      auth, time
+    });
+    const accounts = [];
+    for (const account of res.data) {
+      const ciphertext = Buffer.from(account, 'hex');
+      const plaintext = await this.props.user.key.decrypt(ciphertext, 'aes256');
+      accounts.push(JSON.parse(plaintext.toString()));
+    }
+    this.setState({loading: false, data: accounts});
   }
 
   search() {
@@ -75,13 +76,18 @@ class Dashboard extends React.Component {
 
   create(e) {
     e.preventDefault();
-    this.setState({loading: true});
+    this.setState({modal: false, loading: true, autocomplete: false, site: false});
+    const user = this.user.current.value;
+    const pass = this.pass.current.value;
+    this.user.current.value = '';
+    this.pass.current.value = '';
+
     (async () => {
       const account = {
         name: this.state.site.name,
         site: this.state.site.domain,
-        user: this.user.current.value,
-        pass: this.pass.current.value
+        user: user,
+        pass: pass
       };
       const plaintext = JSON.stringify(account);
       const ciphertext = await this.props.user.key.encrypt(plaintext, 'aes256');
@@ -93,13 +99,12 @@ class Dashboard extends React.Component {
         object: ciphertext.toString('hex'),
         auth, time
       }).then((res) => {
-        console.log(res);
+        this.setState({loading: false, data: this.state.data.concat([account])})
       }).catch((err) => {
         const msg = (err.response && err.response.data) ? err.response.data : err.message;
         this.setState({loading: false});
         alert(msg);
       })
-
     })();
   }
 
@@ -117,7 +122,7 @@ class Dashboard extends React.Component {
       </nav>
       <div className="dashboard">
         <div className="container mt-5">
-          {this.state.data ?
+          {(this.state.data && !this.state.loading) ?
             <div className="row">
               {this.state.data.map(account => <Account data={account} key={account.id} />)}
             </div>

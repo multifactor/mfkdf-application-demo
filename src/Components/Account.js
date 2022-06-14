@@ -3,7 +3,7 @@ import React from 'react';
 class Account extends React.Component {
   render() {
     return (
-      <div className="col-4">
+      <div className="col-4 mb-4">
         <div className="card account">
           <div className="splash" style={{backgroundColor: '#212529'}}>
             <div className="icon">

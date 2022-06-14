@@ -42,7 +42,10 @@ export async function onRequest(context) {
             const data = [];
             for (const item of list.keys) {
               const res = await env.DB.get(item.name);
-              data.push(res);
+              data.push({
+                id: item.name,
+                value: res
+              });
             }
             return new Response(JSON.stringify(data), {status: 200});
           } else {

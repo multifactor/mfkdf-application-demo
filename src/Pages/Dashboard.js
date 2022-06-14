@@ -44,9 +44,11 @@ class Dashboard extends React.Component {
     });
     const accounts = [];
     for (const account of res.data) {
-      const ciphertext = Buffer.from(account, 'hex');
+      const ciphertext = Buffer.from(account.value, 'hex');
       const plaintext = await this.props.user.key.decrypt(ciphertext, 'aes256');
-      accounts.push(JSON.parse(plaintext.toString()));
+      const data = JSON.parse(plaintext.toString());
+      data.id = account.id;
+      accounts.push(data);
     }
     this.setState({loading: false, data: accounts});
   }
@@ -124,7 +126,7 @@ class Dashboard extends React.Component {
         <div className="container mt-5">
           {(this.state.data && !this.state.loading) ?
             <div className="row">
-              {this.state.data.map(account => <Account data={account} key={account.id} />)}
+              {this.state.data.map(account => <Account data={account} key={account.id} user={this.props.user} />)}
             </div>
           : <Loading />}
         </div>

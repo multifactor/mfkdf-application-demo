@@ -4,6 +4,17 @@ import Account from '../Components/Account';
 import axios from 'axios';
 import logo from '../Images/icon-w.png';
 
+function SHA256(string) {
+  const utf8 = new TextEncoder().encode(string);
+  return crypto.subtle.digest('SHA-256', utf8).then((hashBuffer) => {
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    const hashHex = hashArray
+      .map((bytes) => bytes.toString(16).padStart(2, '0'))
+      .join('');
+    return hashHex;
+  });
+}
+
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
@@ -74,11 +85,14 @@ class Dashboard extends React.Component {
       };
       const plaintext = JSON.stringify(account);
       const ciphertext = await this.props.user.key.encrypt(plaintext, 'aes256');
-      const auth = await this.props.user.key.ISO97981PassUnilateralAuthCCF(ciphertext);
+      const authKey = (await this.props.user.key.ISO9798CCFKey()).toString('hex');
+      const time = Date.now();
+      const auth = await SHA256(authKey + time);
+
 
       axios.post('/api/passwords/new?email=' + encodeURIComponent(this.props.user.email), {
         object: ciphertext.toString('hex'),
-        auth: auth.toString('hex')
+        auth, time
       }).then((res) => {
         console.log(res);
       }).catch((err) => {

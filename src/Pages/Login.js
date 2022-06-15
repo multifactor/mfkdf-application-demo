@@ -3,6 +3,7 @@ import icon from '../Images/icon-w.png';
 import Loading from '../Components/Loading';
 import axios from 'axios';
 import { Navigate, Link } from "react-router-dom";
+import Cookies from 'js-cookie';
 
 const validateEmail = (email) => {
   return email.match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
@@ -37,20 +38,21 @@ class Login extends React.Component {
     this.totp = React.createRef();
     this.submit = this.submit.bind(this);
     this.validate = this.validate.bind(this);
+    this.unremember = this.unremember.bind(this);
   }
 
   submit(e) {
     e.preventDefault();
     if (this.state.success) {
-      if (this.state.passwordValid && this.state.totpValid) {
+      if (this.state.passwordValid && (this.state.totpValid || this.state.totp)) {
         const password = this.password.current.value;
-        const totp = this.totp.current.value;
+        const totp = this.state.totp ? null : this.totp.current.value;
         this.setState({loading: true});
         (async () => {
           const mfkdf = window.mfkdf;
           const derived = await mfkdf.policy.derive(this.policy, {
             password: mfkdf.derive.factors.password(password),
-            totp: mfkdf.derive.factors.totp(parseInt(totp))
+            totp: (this.state.totp ? mfkdf.derive.factors.persisted(Buffer.from(this.state.totp, 'hex')) : mfkdf.derive.factors.totp(parseInt(totp)))
           });
           const authKey = (await derived.ISO9798CCFKey()).toString('hex');
           const time = Date.now();
@@ -74,7 +76,8 @@ class Login extends React.Component {
         const email = this.email.current.value;
         axios.post('/api/policy?email=' + encodeURIComponent(email)).then((res) => {
           this.policy = res.data;
-          this.setState({loading: false, success: true, email: email});
+          const totp = Cookies.get(email);
+          this.setState({loading: false, success: true, email: email, totp: totp});
         }).catch((err) => {
           const msg = (err.response && err.response.data) ? err.response.data : err.message;
           if (msg === "User not found") {
@@ -99,12 +102,17 @@ class Login extends React.Component {
     });
   }
 
+  unremember() {
+    Cookies.remove(this.state.email);
+    this.setState({totp: undefined});
+  }
+
   render() {
     if (this.state.register) {
       return <Navigate to={"/register?e=" + encodeURIComponent(this.state.register)} />
     }
     if (this.state.dashboard) {
-      return <Navigate to="/dashboard" />
+      return <Navigate to="/remember" />
     }
     return <div className="splash-bg">
       <div className="bg-image"></div>
@@ -124,12 +132,19 @@ class Login extends React.Component {
                   <input onChange={this.validate} ref={this.password} type="password" className={this.state.passwordValid ? "form-control is-valid" : "form-control"} placeholder="Enter your password" />
                   <div className="form-text mt-1"><Link to={"/recover?e=" + encodeURIComponent(this.state.email)}>Forgot password?</Link></div>
                 </div>
-                <div className="mt-3">
+                {this.state.totp ? <div className="mt-3">
+                  <label htmlFor="email" className="form-label">TOTP code</label>
+                  <div className="input-group m-0">
+                    <span className="input-group-text"><i className="fa fa-circle-check" /></span>
+                    <input type="text" className="form-control" value="Remembered" readOnly />
+                    <button className="btn btn-outline-secondary" onClick={this.unremember} type="button"><i className="fa fa-times" /></button>
+                  </div>
+                </div> : <div className="mt-3">
                   <label htmlFor="email" className="form-label">TOTP code</label>
                   <input onChange={this.validate} ref={this.totp} type="number" className={this.state.totpValid ? "form-control is-valid" : "form-control"} placeholder="Enter your one-time code" />
                   <div className="form-text mt-1"><Link to={"/recover?e=" + encodeURIComponent(this.state.email)}>Lost TOTP device?</Link></div>
-                </div>
-                <button disabled={!(this.state.passwordValid && this.state.totpValid)} className="btn btn-success mt-3 mb-0 w-100" type="submit">Continue &nbsp;<i className="fa fa-arrow-right" /></button>
+                </div> }
+                <button disabled={!(this.state.passwordValid && (this.state.totpValid || this.state.totp))} className="btn btn-success mt-3 mb-0 w-100" type="submit">Continue &nbsp;<i className="fa fa-arrow-right" /></button>
               </form>
             </> : <>
               <form action="" onSubmit={this.submit}>

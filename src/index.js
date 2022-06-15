@@ -15,6 +15,7 @@ import Entropy from './Pages/Entropy';
 import Dashboard from './Pages/Dashboard';
 import Login from './Pages/Login';
 import Home from './Pages/Home';
+import Remember from './Pages/Remember';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -29,6 +30,7 @@ root.render(
         <Route path="/entropy" element={<Entropy user={user} />} />
         <Route path="/dashboard" element={<Dashboard user={user} />} />
         <Route path="/login" element={<Login user={user} />} />
+        <Route path="/remember" element={<Remember user={user} />} />
         <Route path="/" element={<Home user={user} />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

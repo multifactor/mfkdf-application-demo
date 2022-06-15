@@ -130,7 +130,7 @@ class Login extends React.Component {
                 <div className="mt-3">
                   <label htmlFor="email" className="form-label">Password</label>
                   <input onChange={this.validate} ref={this.password} type="password" className={this.state.passwordValid ? "form-control is-valid" : "form-control"} placeholder="Enter your password" />
-                  <div className="form-text mt-1"><Link to={"/recover?e=" + encodeURIComponent(this.state.email)}>Forgot password?</Link></div>
+                  <div className="form-text mt-1"><Link to={"/recoverpassword?e=" + encodeURIComponent(this.state.email)}>Forgot password?</Link></div>
                 </div>
                 {this.state.totp ? <div className="mt-3">
                   <label htmlFor="email" className="form-label">TOTP code</label>
@@ -142,7 +142,7 @@ class Login extends React.Component {
                 </div> : <div className="mt-3">
                   <label htmlFor="email" className="form-label">TOTP code</label>
                   <input onChange={this.validate} ref={this.totp} type="number" className={this.state.totpValid ? "form-control is-valid" : "form-control"} placeholder="Enter your one-time code" />
-                  <div className="form-text mt-1"><Link to={"/recover?e=" + encodeURIComponent(this.state.email)}>Lost TOTP device?</Link></div>
+                  <div className="form-text mt-1"><Link to={"/recovertotp?e=" + encodeURIComponent(this.state.email)}>Lost TOTP device?</Link></div>
                 </div> }
                 <button disabled={!(this.state.passwordValid && (this.state.totpValid || this.state.totp))} className="btn btn-success mt-3 mb-0 w-100" type="submit">Continue &nbsp;<i className="fa fa-arrow-right" /></button>
               </form>

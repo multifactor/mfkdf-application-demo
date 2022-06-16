@@ -22,7 +22,8 @@
       width: 100%;
       margin-bottom: 48px;
     }
-    h2, p {
+    h2,
+    p {
       opacity: 0.8;
     }
     button {
@@ -98,7 +99,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background-image: linear-gradient(45deg, #FF0401, #FC6E02);
+  background-image: linear-gradient(45deg, #ff0401, #fc6e02);
 
   .bg-image {
     position: absolute;
@@ -176,7 +177,7 @@
     i {
       font-size: 24px;
       position: absolute;
-      color: #FFF;
+      color: #fff;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
@@ -190,10 +191,9 @@ input::-webkit-inner-spin-button {
   margin: 0;
 }
 
-input[type=number] {
+input[type="number"] {
   -moz-appearance: textfield;
 }
-
 
 .modal {
   .list-group {

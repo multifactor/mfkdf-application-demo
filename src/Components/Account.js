@@ -55,7 +55,7 @@ class Account extends React.Component {
             </div>
           </div>
           <div className="info">
-            <h3 className="m-0">{this.props.data.name}</h3>
+            <h3 className="m-0 text-truncate">{this.props.data.name}</h3>
             <div className="input-group mt-2 pt-1">
               <span className="input-group-text">
                 <i className="fa fa-user fa-fw" />

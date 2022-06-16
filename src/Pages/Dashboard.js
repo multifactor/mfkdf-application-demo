@@ -198,6 +198,11 @@ class Dashboard extends React.Component {
                         Update TOTP
                       </Link>
                     </li>
+                    <li>
+                      <Link to="/logout" className="dropdown-item">
+                        Log Out
+                      </Link>
+                    </li>
                   </ul>
                 </li>
               </ul>

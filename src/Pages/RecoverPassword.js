@@ -166,7 +166,7 @@ class RecoverPassword extends React.Component {
       return <Navigate to={"/register?e=" + encodeURIComponent(this.state.register)} />
     }
     if (this.state.dashboard) {
-      return <Navigate to="/remember" />
+      return <Navigate to="/changepassword" />
     }
     return <div className="splash-bg">
       <div className="bg-image"></div>

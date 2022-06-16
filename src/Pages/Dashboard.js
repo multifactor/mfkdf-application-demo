@@ -4,9 +4,7 @@ import Account from '../Components/Account';
 import axios from 'axios';
 import logo from '../Images/icon-w.png';
 import hero from '../Images/hero.png';
-import {
-  Navigate
-} from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 
 function SHA256(string) {
   const utf8 = new TextEncoder().encode(string);
@@ -122,11 +120,19 @@ class Dashboard extends React.Component {
     return <>
       <nav className="navbar navbar-expand-lg fixed-top navbar-dark bg-dark">
         <div className="container">
-          <a className="navbar-brand" href="/"><img src={logo} alt="MFKDF" height="30" />&nbsp; MFKDF Demo</a>
+          <Link to="/" className="navbar-brand"><img src={logo} alt="MFKDF" height="30" />&nbsp; MFKDF Demo</Link>
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span className="navbar-toggler-icon"></span></button>
           <div className="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul className="navbar-nav me-auto mb-2 mb-lg-0"></ul>
-            <form className="d-flex"><button type="button" className="btn btn-light my-2 my-sm-0" onClick={() => {this.setState({modal: true})}}><i className="fa fa-plus"></i>&nbsp; Add Password</button></form>
+            <ul className="navbar-nav mb-2 mb-lg-0 ms-auto">
+              <li className="nav-item dropdown">
+                <button className="btn btn-link nav-link dropdown-toggle" id="navbarDropdown" data-bs-toggle="dropdown" aria-expanded="false"><i className="fa fa-cog" />&nbsp; Settings</button>
+                <ul className="dropdown-menu" aria-labelledby="navbarDropdown">
+                  <li><Link to="/changepassword" className="dropdown-item">Update Password</Link></li>
+                  <li><Link to="/changetotp" className="dropdown-item">Update TOTP</Link></li>
+                </ul>
+              </li>
+            </ul>
+            <form><button type="button" className="btn btn-light my-2 my-sm-0" onClick={() => {this.setState({modal: true})}}><i className="fa fa-plus"></i>&nbsp; Add Password</button></form>
           </div>
         </div>
       </nav>

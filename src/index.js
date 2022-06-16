@@ -18,6 +18,8 @@ import Home from './Pages/Home';
 import Remember from './Pages/Remember';
 import RecoverPassword from './Pages/RecoverPassword';
 import RecoverTOTP from './Pages/RecoverTOTP';
+import ChangePassword from './Pages/ChangePassword';
+import ChangeTOTP from './Pages/ChangeTOTP';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -35,6 +37,8 @@ root.render(
         <Route path="/remember" element={<Remember user={user} />} />
         <Route path="/recoverpassword" element={<RecoverPassword user={user} />} />
         <Route path="/recovertotp" element={<RecoverTOTP user={user} />} />
+        <Route path="/changepassword" element={<ChangePassword user={user} />} />
+        <Route path="/changetotp" element={<ChangeTOTP user={user} />} />
         <Route path="/" element={<Home user={user} />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>

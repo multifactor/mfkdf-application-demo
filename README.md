@@ -6,6 +6,7 @@ MFKDF Centralized Application Demo
 [![MIT](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/multifactor/mfkdf-application-demo/blob/main/LICENSE)
 
 [View Demo](https://demo.mfkdf.com) |
+[Demo Video](https://www.youtube.com/watch?v=u3eUsPnv7K8) |
 [MFKDF Repo](https://github.com/multifactor/mfkdf) |
 [MFKDF Site](https://mfkdf.com/) |
 [MFKDF Docs](https://mfkdf.com/docs/) |

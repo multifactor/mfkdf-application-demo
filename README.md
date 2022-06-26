@@ -15,4 +15,4 @@ MFKDF Centralized Application Demo
 
 This repository illustrates how to use MFKDF to build a strong centralized password management application featuring multi-factor key derivation with advanced key derivation policies, factor persistence, self-service key recovery, MFKDF-based authentication, and end-to-end encryption. The application exists for demonstration purposes only. It has not been tested/audited as thoroughly as the core MFKDF library, and is not intended to be used as a production-ready application.
 
-Copyright ©2022 Vivek Nair • [MIT](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+Copyright ©2022 Vivek Nair • [MIT](https://github.com/multifactor/mfkdf-application-demo/blob/main/LICENSE)
